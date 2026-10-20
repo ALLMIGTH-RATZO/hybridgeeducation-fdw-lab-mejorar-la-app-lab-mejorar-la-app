@@ -12,6 +12,18 @@
         <form id="formularioPelicula" class="mb-6">
             <div class="mb-4">
                 <label for="titulo" class="block text-gray-700 font-bold mb-2">Título</label>
+                <div class="mb-4">
+    <label for="imagen" class="block text-gray-700 font-bold mb-2">
+        URL de la imagen del cartel
+    </label>
+    <input
+        type="url"
+        id="imagen"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+        placeholder="https://ejemplo.com/cartel.jpg"
+        required
+    >
+</div>
                 <input type="text" id="titulo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
             </div>
             <div class="mb-4">
@@ -32,6 +44,9 @@
             <thead>
                 <tr>
                     <th class="py-2 px-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-600">Título</th>
+                    <th class="py-2 px-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-600">
+    Cartel
+</th>
                     <th class="py-2 px-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-600">Año</th>
                     <th class="py-2 px-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-600">Calificación</th>
                     <th class="py-2 px-4 border-b-2 border-gray-300 text-left text-sm font-semibold text-gray-600">Reseña</th>
@@ -44,32 +59,59 @@
     </div>
 
     <script>
-        document.getElementById('formularioPelicula').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Obtener valores del formulario
-            const titulo = document.getElementById('titulo').value;
-            const anio = document.getElementById('anio').value;
-            const calificacion = document.getElementById('calificacion').value;
-            const resena = document.getElementById('resena').value;
+      
+<script>
+    document.getElementById('formularioPelicula').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            // Crear una nueva fila en la tabla
-            const nuevaFila = document.createElement('tr');
+        // Obtener valores del formulario
+        const titulo = document.getElementById('titulo').value;
+        const imagen = document.getElementById('imagen').value;
+        const anio = document.getElementById('anio').value;
+        const calificacion = document.getElementById('calificacion').value;
+        const resena = document.getElementById('resena').value;
 
-            // Añadir celdas a la fila
-            nuevaFila.innerHTML = `
-                <td class="py-2 px-4 border-b border-gray-300">${titulo}</td>
-                <td class="py-2 px-4 border-b border-gray-300">${anio}</td>
-                <td class="py-2 px-4 border-b border-gray-300">${calificacion}</td>
-                <td class="py-2 px-4 border-b border-gray-300">${resena}</td>
-            `;
+        // Crear una nueva fila
+        const nuevaFila = document.createElement('tr');
 
-            // Añadir la nueva fila al cuerpo de la tabla
-            document.getElementById('cuerpoTablaPeliculas').appendChild(nuevaFila);
-
-            // Limpiar el formulario
-            document.getElementById('formularioPelicula').reset();
+        // Crear celdas de texto de forma segura
+        [titulo].forEach(texto => {
+            const celda = document.createElement('td');
+            celda.className = 'py-2 px-4 border-b border-gray-300';
+            celda.textContent = texto;
+            nuevaFila.appendChild(celda);
         });
+
+        // Crear celda para el cartel
+        const celdaImagen = document.createElement('td');
+        celdaImagen.className = 'py-2 px-4 border-b border-gray-300';
+
+        const img = document.createElement('img');
+        img.src = imagen;
+        img.alt = 'Cartel de ' + titulo;
+        img.style.width = '80px';
+        img.style.height = '120px';
+        img.style.objectFit = 'cover';
+
+        celdaImagen.appendChild(img);
+        nuevaFila.appendChild(celdaImagen);
+
+        // Agregar las demás celdas
+        [anio, calificacion, resena].forEach(texto => {
+            const celda = document.createElement('td');
+            celda.className = 'py-2 px-4 border-b border-gray-300';
+            celda.textContent = texto;
+            nuevaFila.appendChild(celda);
+        });
+
+        // Agregar fila a la tabla
+        document.getElementById('cuerpoTablaPeliculas').appendChild(nuevaFila);
+
+        // Limpiar formulario
+        document.getElementById('formularioPelicula').reset();
+    });
+</script>
+
     </script>
 </body>
 </html>
